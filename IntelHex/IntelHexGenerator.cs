@@ -55,7 +55,7 @@ public class IntelHexGenerator
 
             if(subAddr > 0xFFFF)
             {
-                subAddr -= 0xFFFF;
+                subAddr -= 0x10000;
                 extendAddr++;
                 sb.AppendLine(GetExtrendLinearAddrLine(extendAddr));
             }
