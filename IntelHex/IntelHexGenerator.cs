@@ -44,7 +44,6 @@ public class IntelHexGenerator
         if (inputBin.Length <= 0) return "";
 
         StringBuilder sb = new StringBuilder();
-
         sb.AppendLine(GetExtrendLinearAddrLine(extendAddr));
 
         for (int i = 0; i < inputBin.Length; i += 16)
@@ -73,13 +72,11 @@ public class IntelHexGenerator
     private string GetDataLine(UInt16 address, byte[] data)
     {
         byte length = (byte)((data.Length < 16) ? data.Length : 16);
-
         var line = new IntelHexLine();
         line.length = length;
         line.address = address;
         line.type = IntelHexLineType.Data;
         line.data = data.Take(length).ToArray();
-
         return GetHexLine(line);
     }
 
@@ -90,14 +87,12 @@ public class IntelHexGenerator
         line.address = 0;
         line.type = IntelHexLineType.ExtrendLinearAddr;
         line.data = BitConverter.GetBytes(extendedAddr).Reverse().ToArray();
-
         return GetHexLine(line);
     }
 
     private string GetHexLine(IntelHexLine intelHexLine)
     {
         intelHexLine.checksum = GetChecksum(intelHexLine);
-
         StringBuilder sb = new StringBuilder(":");
         sb.Append(intelHexLine.length.ToString("X2"));
         sb.Append(intelHexLine.address.ToString("X4"));
@@ -105,7 +100,6 @@ public class IntelHexGenerator
         foreach (byte b in intelHexLine.data)
             sb.Append(b.ToString("X2"));
         sb.Append(intelHexLine.checksum.ToString("X2"));
-
         return sb.ToString();
     }
 
@@ -117,8 +111,6 @@ public class IntelHexGenerator
         foreach (byte b in arr)
             result += b;
 
-        result = (byte)(~result + 1);
-
-        return result;
+        return (byte)(~result + 1);
     }
 }
